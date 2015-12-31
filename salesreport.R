@@ -38,7 +38,7 @@ report <- function (file, date = 1:12, product="all", store="all") {
     nodata$percent <- as.numeric(nodata$total / sum(monthsales$product_price) * 100)
 
     rankproducts <- nodata[order(-nodata$total, nodata$product), ]
-    cat("\nTop ten products sold for specificed dates:\n")
+    cat("\nTop ten products sold for specified dates:\n")
     print(rankproducts[1:20, ])
 
   } else if (product == "worst"){
@@ -58,7 +58,7 @@ report <- function (file, date = 1:12, product="all", store="all") {
     nodata$percent <- as.numeric(nodata$total / sum(monthsales$product_price) * 100)
 
     rankproducts <- nodata[order(nodata$total, nodata$product), ]
-    cat("\nBottom ten products sold for specificed dates:\n")
+    cat("\nBottom ten products sold for specified dates:\n")
     print(rankproducts[1:20, ])
 
   }  else if (product == "all"){
@@ -78,7 +78,7 @@ report <- function (file, date = 1:12, product="all", store="all") {
     nodata$percent <- as.numeric(nodata$total / sum(monthsales$product_price) * 100)
 
     rankproducts <- nodata[order(-nodata$total, nodata$product), ]
-    cat("\nAll products sold for specificed dates:\n")
+    cat("\nAll products sold for specified dates:\n")
     print(rankproducts)
 
   } else if (product %in% monthsales$product_name) {
@@ -167,7 +167,7 @@ report <- function (file, date = 1:12, product="all", store="all") {
     levels(nodata1$store)[levels(nodata1$store) == "42"] <- "Yia Yia's EuroBistro"
 
     rankstores <- nodata1[order(-nodata1$total, nodata1$store), ]
-    cat("\nTop ten stores for specificed dates:\n")
+    cat("\nTop ten stores for specified dates:\n")
     print(rankstores[1:10, ])
 
     cat("\nGross sales for top ten stores: \n$", sum(rankstores[1:10, ]$total), "\n")
@@ -246,7 +246,7 @@ report <- function (file, date = 1:12, product="all", store="all") {
     levels(nodata2$store)[levels(nodata2$store) == "42"] <- "Yia Yia's EuroBistro"
 
     rankstores1 <- nodata2[order(nodata2$total, nodata2$store), ]
-    cat("\nBottom ten stores for specificed dates:\n")
+    cat("\nBottom ten stores for specified dates:\n")
     print(rankstores1[1:10, ])
 
     } else if (store == "all"){
@@ -322,7 +322,7 @@ report <- function (file, date = 1:12, product="all", store="all") {
       levels(nodata2$store)[levels(nodata2$store) == "42"] <- "Yia Yia's EuroBistro"
 
       rankstores1 <- nodata2[order(-nodata2$total, nodata2$store), ]
-      cat("\nAll stores for specificed dates:\n")
+      cat("\nAll stores for specified dates:\n")
       print(rankstores1)
 
   } else if (store %in% monthsales$user_id) {
