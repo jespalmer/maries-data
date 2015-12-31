@@ -38,8 +38,11 @@ report <- function (file, date = 1:12, product="all", store="all") {
     nodata$percent <- as.numeric(nodata$total / sum(monthsales$product_price) * 100)
 
     rankproducts <- nodata[order(-nodata$total, nodata$product), ]
-    cat("\nTop ten products sold for specified dates:\n")
+    cat("\nTop twenty products sold for specified dates:\n")
     print(rankproducts[1:20, ])
+
+    cat("\nGross sales for top twenty products: \n$", sum(rankproducts[1:20, ]$total), "\n")
+    cat("\nPercentage of sales for specified dates: \n", (sum(rankproducts[1:20, ]$total)) / sum(rankproducts$total) * 100, "%\n")
 
   } else if (product == "worst"){
     #find the bottom twenty products
@@ -58,8 +61,10 @@ report <- function (file, date = 1:12, product="all", store="all") {
     nodata$percent <- as.numeric(nodata$total / sum(monthsales$product_price) * 100)
 
     rankproducts <- nodata[order(nodata$total, nodata$product), ]
-    cat("\nBottom ten products sold for specified dates:\n")
+    cat("\nBottom twenty products sold for specified dates:\n")
     print(rankproducts[1:20, ])
+    cat("\nGross sales for bottom twenty products: \n$", sum(rankproducts[1:20, ]$total), "\n")
+
 
   }  else if (product == "all"){
     #find the all the products sold
@@ -85,7 +90,7 @@ report <- function (file, date = 1:12, product="all", store="all") {
     #find the exact product
     as.list(product)
     monthproduct <- subset(monthsales, monthsales$product_name %in% product)
-    cat("\nGross month sales for this product: \n$", sum(monthproduct$product_price), "\n")
+    cat("\nGross sales for this product: \n$", sum(monthproduct$product_price), "\n")
     cat("\nPercentage of YTD for this product: \n", (sum(monthproduct$product_price)) / sum(monthsales$product_price) * 100, "%\n")
 
   } else if (!(product %in% monthsales$product_name)) {
@@ -171,7 +176,7 @@ report <- function (file, date = 1:12, product="all", store="all") {
     print(rankstores[1:10, ])
 
     cat("\nGross sales for top ten stores: \n$", sum(rankstores[1:10, ]$total), "\n")
-    cat("\nPercentage of YTD: \n", (sum(rankstores[1:10, ]$total) / sum(rankstores$total)) * 100, "%", "\n")
+    cat("\nPercentage of sales for specified dates: \n", (sum(rankstores[1:10, ]$total) / sum(rankstores$total)) * 100, "%", "\n")
 
   } else if (store == "worst"){
     #find the bottom ten stores
@@ -248,6 +253,8 @@ report <- function (file, date = 1:12, product="all", store="all") {
     rankstores1 <- nodata2[order(nodata2$total, nodata2$store), ]
     cat("\nBottom ten stores for specified dates:\n")
     print(rankstores1[1:10, ])
+
+    cat("\nGross sales for bottom ten stores: \n$", sum(rankstores1[1:10, ]$total), "\n")
 
     } else if (store == "all"){
       #find the bottom ten stores
