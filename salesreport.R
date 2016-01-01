@@ -21,7 +21,9 @@ report <- function (file, date = 1:12, product="all", store="all") {
   cat("\nPercentage of YTD: \n", (sum(monthsales$product_price)) / sum(cleandata$product_price) * 100, "%",  "\n")
 
   #validate product and order the rows by the specified order
-  if (product == "best") {
+  if (product == "skip") {
+    cat("\n")
+  } else if (product == "best") {
     #find the top twenty products
     productlist <- levels(factor(monthsales$product_name))
 
@@ -99,7 +101,9 @@ report <- function (file, date = 1:12, product="all", store="all") {
   }
 
   #validate store and order the rows by the specified store
-  if (store == "best"){
+  if (store == "skip") {
+    cat("\n")
+  } else if (store == "best"){
     #find the top ten stores
     storelist <- levels(factor(monthsales$user_id))
 
@@ -168,7 +172,7 @@ report <- function (file, date = 1:12, product="all", store="all") {
     levels(nodata1$store)[levels(nodata1$store) == "3"] <- "testpass"
     levels(nodata1$store)[levels(nodata1$store) == "45"] <- "The Merc"
     levels(nodata1$store)[levels(nodata1$store) == "25"] <- "Hy-Vee Topeka"
-    levels(nodata1$store)[levels(nodata1$store) == "54"] <- "Torando Alley Trading Co"
+    levels(nodata1$store)[levels(nodata1$store) == "54"] <- "Tornado Alley Trading Co"
     levels(nodata1$store)[levels(nodata1$store) == "42"] <- "Yia Yia's EuroBistro"
 
     rankstores <- nodata1[order(-nodata1$total, nodata1$store), ]
@@ -247,7 +251,7 @@ report <- function (file, date = 1:12, product="all", store="all") {
     levels(nodata2$store)[levels(nodata2$store) == "3"] <- "testpass"
     levels(nodata2$store)[levels(nodata2$store) == "45"] <- "The Merc"
     levels(nodata2$store)[levels(nodata2$store) == "25"] <- "Hy-Vee Topeka"
-    levels(nodata2$store)[levels(nodata2$store) == "54"] <- "Torando Alley Trading Co"
+    levels(nodata2$store)[levels(nodata2$store) == "54"] <- "Tornado Alley Trading Co"
     levels(nodata2$store)[levels(nodata2$store) == "42"] <- "Yia Yia's EuroBistro"
 
     rankstores1 <- nodata2[order(nodata2$total, nodata2$store), ]
@@ -325,7 +329,7 @@ report <- function (file, date = 1:12, product="all", store="all") {
       levels(nodata2$store)[levels(nodata2$store) == "3"] <- "testpass"
       levels(nodata2$store)[levels(nodata2$store) == "45"] <- "The Merc"
       levels(nodata2$store)[levels(nodata2$store) == "25"] <- "Hy-Vee Topeka"
-      levels(nodata2$store)[levels(nodata2$store) == "54"] <- "Torando Alley Trading Co"
+      levels(nodata2$store)[levels(nodata2$store) == "54"] <- "Tornado Alley Trading Co"
       levels(nodata2$store)[levels(nodata2$store) == "42"] <- "Yia Yia's EuroBistro"
 
       rankstores1 <- nodata2[order(-nodata2$total, nodata2$store), ]
