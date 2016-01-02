@@ -1,5 +1,6 @@
 *.csv
 *.json
 *.out
+*.png
 .DS_Store
 reports.txt
