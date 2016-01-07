@@ -63,32 +63,33 @@ quantreport <- function (file, date = 1:12) {
   framelenp <- length(productlist1)
   framelend <- length(datelist)
 
-  nodata <- data.frame(product=character(framelenp), quantity=integer(framelenq), date=(framelend))
+  nodata <- data.frame(product=character(framelenp), quantity=integer(framelenq), date= (framelend))
   nodata$quantity <- as.numeric(quantitylist)
   nodata$product <- as.character(productlist1)
   nodata$date <- as.Date(datelist)
 
   final <- nodata[order(nodata$date, nodata$product), ]
   print(final)
+
+  #scatterplots and regression
+  reg <- subset(final, final$product == "Lemon Cupcakes")
+
+  print(reg)
+  plot(reg$date, reg$quantity, pch=19, xlab="Date Sold", ylab="Quantity Sold", main="Unit Lemon Cupcakes Sales")
+  lm.out <- lm(reg$quantity ~ reg$date)
+  print(summary(lm.out))
+  abline(lm(reg$quantity~reg$date), col="red")
+
+  #forcasting
+  len <- length(reg$quantity)
+  library(forecast)
+  require(lubridate)
+  y = ts(reg$quantity, start=c(2015, yday("2015-01-01")), frequency=len)
+  plot(forecast(ets(y), 100), xaxt="n", shadecols="oldstyle")
+  a =seq(as.Date("2015-01-01"), by="months", length=len)
+  axis(1, at=decimal_date(a), labels=format(a, "%Y %b"), cex.axis=0.6)
+
 }
-
-#regression
-reg <- subset(final, final$product == "Cherry Pie Baked 9-inch")
-print(reg)
-plot(reg$date, reg$quantity, pch=19, xlab="Date Sold", ylab="Quantity Sold", main="Unit Cherry Pie Baked 9-inch Sales")
-lm.out <- lm(reg$quantity ~ reg$date)
-print(summary(lm.out))
-abline(lm(reg$quantity~reg$date), col="red")
-#
-#forcasting
-len <- length(reg$quantity)
-library(forecast)
-require(lubridate)
-y = ts(reg$quantity, start=c(2015, yday("2015-01-01")), frequency=len)
-plot(forecast(ets(y), 100), xaxt="n", shadecols="oldstyle")
-a =seq(as.Date("2015-01-01"), by="months", length=len)
-axis(1, at=decimal_date(a), labels=format(a, "%Y %b"), cex.axis=0.6)
-
   #
   # #data we need to run linear regression by day of the month:
   # tapply(monthsales$product_name, day(ymd(monthsales$newdates)), count)
