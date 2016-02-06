@@ -1,7 +1,68 @@
-report <- function (file, date = 1:12, product="all", store="all") {
+report <- function (file, date = "month", year = "year", product="all", store="all") {
 
   #read the file
-  orders <- read.csv(file, header=TRUE, sep =",")
+  this_month <- read.csv(file, header=TRUE, sep ="\t")
+
+  #change the dates to correct format
+  this_month_dates <- this_month$placed_date
+  this_month_dates <- as.Date(as.character(this_month_dates), "%Y-%m-%d")
+  this_month$placed_date <- this_month_dates
+
+  #print plot of number of orders placed by month
+  hist(this_month$placed_date, "month",
+    main="Number of invoices placed per month",
+    ylab="Number of Orders", xlab="Month")
+
+  month_lastyear <- subset(this_month,
+    format.Date(placed_date, "%m") == "01" &
+    format.Date(placed_date, "%y") == "15")
+
+  month_thisyear <- subset(this_month,
+    format.Date(placed_date, "%m") == "01" &
+    format.Date(placed_date, "%y") == "16")
+
+  #get totals sold per product by month for each year
+  lastyear_sums <- with(month_lastyear,
+    tapply(product_price, product_name, sum))
+
+  summary(lastyear_sums)
+
+  thisyear_sums <- with(month_thisyear,
+    tapply(product_price, product_name, sum))
+
+  summary(thisyear_sums)
+
+  #make into dataframe to generate plot
+  d0 <- data.frame(product = names(lastyear_sums), total= lastyear_sums)
+  d0[is.na(d0)] <- 0
+  d1 <- data.frame(product = names(thisyear_sums), total= thisyear_sums)
+  d1[is.na(d1)] <- 0
+
+  compare_months <- merge(d0, d1, by= "product")
+
+  #make the comparsion plot
+  par(mfrow = c(1, 1))
+  with(compare_months, plot(rep(2015, 88), compare_months[, 2],
+    xlim=c(2015, 2016)))
+  with(compare_months, points(rep(2016, 88), compare_months[, 3]))
+  segments(rep(2015, 88), compare_months[, 2],
+    rep(2016, 88), compare_months[, 3])
+
+  #boxplots of month totals comparsion
+  boxplot(d0$total, d1$total)
+  boxplot(log10(d0$total), log10(d1$total))
+
+  #generate counts for each product
+  counts_lastyear <- sapply(split(month_lastyear,
+    month_lastyear$product_name), nrow)
+  counts_thisyear <- sapply(split(month_thisyear,
+    month_thisyear$product_name), nrow)
+
+  counts1 <- data.frame(product = names(counts_lastyear),
+   total= counts_lastyear)
+  counts2 <- data.frame(product = names(counts_thisyear),
+    total= counts_thisyear)
+
 
   #change factor dates into date class
   library(lubridate)
