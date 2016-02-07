@@ -3,5 +3,7 @@
 *.out
 *.png
 *.pdf
+*.ai
+*.txt
+/ai
 .DS_Store
-reports.txt
