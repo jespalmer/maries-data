@@ -2,5 +2,6 @@
 *.json
 *.out
 *.png
+*.pdf
 .DS_Store
 reports.txt

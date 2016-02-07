@@ -39,6 +39,7 @@ report <- function (file, date = "month", year = "year", product="all", store="a
   d1[is.na(d1)] <- 0
 
   compare_months <- merge(d0, d1, by= "product")
+  names(compare_months) <- c("product", "lastYear", "thisYear")
 
   #make the comparsion plot
   par(mfrow = c(1, 1))
@@ -63,6 +64,51 @@ report <- function (file, date = "month", year = "year", product="all", store="a
   counts2 <- data.frame(product = names(counts_thisyear),
     total= counts_thisyear)
 
+  #reshape the data to make barcharts
+  compare_months$thisYear <- as.numeric(compare_months$thisYear)
+  compare_months$lastYear <- as.numeric(compare_months$lastYear)
+  
+  library(tidyr)
+  long <- gather(compare_months, year, total, lastYear:thisYear)
+  long <- long[order(long$product, long$year), ]
+
+  #create plot for total comparsion for whole month totals
+  g <- ggplot(data= long, aes(x=year, y=total, fill=year)) +
+    geom_bar(stat= "identity") + guides(fill= FALSE) +
+    xlab("Year") + ylab ("Total Month Sales") +
+    ggtitle("Total Month Sales Compared")
+  #save as pdf
+  pdf(paste("january_summary", ".pdf", sep=""))
+  print(g)
+  dev.off()
+
+#create loop to make plots
+product.graph <- function(long, ...){
+  # create list of products in data to loop over
+  product_list <- unique(long$product)
+  # create for loop to produce ggplot2 graphs
+  for (i in seq_along(product_list)) {
+    # create plot for each county in df
+    plot <- ggplot(subset(long, long$product == product_list[i]),
+      aes(x=year, y=total, fill=year)) +
+      geom_bar(stat="identity") +
+      facet_wrap(~ product, scales="free") +
+      guides(fill=FALSE) + xlab("Year") +
+      ylab("Product's monthly gross profit in dollars") +
+      ggtitle(paste("January ",
+      product_list[i],
+      " sales in 2015 and 2016", sep = ""))
+    # save plots as .pdf
+    pdf(paste(product_list[i], ".pdf", sep=""))
+    print(plot)
+    dev.off()
+    # print plots to screen
+  }
+}
+
+
+
+  ###### old code
 
   #change factor dates into date class
   library(lubridate)
