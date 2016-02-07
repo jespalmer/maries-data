@@ -1,1 +1,1 @@
-Rscript doreports.R >> reports.txt
+Rscript domonthreport.R >> month_reports.txt
