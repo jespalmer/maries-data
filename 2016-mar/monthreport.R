@@ -109,7 +109,7 @@ report <- function(file, month1= "01", month2= "01", year1="16", year2="15") {
     )
   s <- s + guides(col=guide_legend(ncol=4, byrow=TRUE, title.hjust = 0.4))
   #save as pdf
-  pdf(paste("february_summary_byproduct", ".pdf", sep=""), useDingbats=FALSE)
+  pdf(paste("march_summary_byproduct", ".pdf", sep=""), useDingbats=FALSE)
   print(s)
   dev.off()
 
@@ -121,7 +121,7 @@ report <- function(file, month1= "01", month2= "01", year1="16", year2="15") {
     ggtitle("Total Month Gross Sales Compared") +
     scale_y_continuous(labels = scales::dollar)
   #save as pdf
-  pdf(paste("february_summary_totals", ".pdf", sep=""), useDingbats=FALSE)
+  pdf(paste("march_summary_totals", ".pdf", sep=""), useDingbats=FALSE)
   print(g)
   dev.off()
 
@@ -138,7 +138,7 @@ report <- function(file, month1= "01", month2= "01", year1="16", year2="15") {
         facet_wrap(~ product, scales="free") +
         guides(fill=FALSE) + xlab("Year") +
         ylab("Product's monthly gross profit in dollars") +
-        ggtitle(paste("february ",
+        ggtitle(paste("March ",
         product_list[i],
         " sales in 2015 and 2016", sep = "")) +
         scale_y_continuous(labels = scales::dollar)
@@ -192,7 +192,7 @@ report <- function(file, month1= "01", month2= "01", year1="16", year2="15") {
     strip.text.x = element_text(size=3)
     )
   #save as pdf
-  pdf(paste("february_summary_bestproducts", ".pdf", sep=""), useDingbats=FALSE)
+  pdf(paste("march_summary_bestproducts", ".pdf", sep=""), useDingbats=FALSE)
   print(g)
   dev.off()
 
@@ -235,7 +235,7 @@ report <- function(file, month1= "01", month2= "01", year1="16", year2="15") {
     strip.text.x = element_text(size=3)
     )
   #save as pdf
-  pdf(paste("february_summary_worstproducts", ".pdf", sep=""), useDingbats=FALSE)
+  pdf(paste("march_summary_worstproducts", ".pdf", sep=""), useDingbats=FALSE)
   print(g)
   dev.off()
 
@@ -301,7 +301,7 @@ report <- function(file, month1= "01", month2= "01", year1="16", year2="15") {
     strip.text.x = element_text(size=3)
     )
   #save as pdf
-  pdf(paste("february_summary_beststores", ".pdf", sep=""), useDingbats=FALSE)
+  pdf(paste("march_summary_beststores", ".pdf", sep=""), useDingbats=FALSE)
   print(t)
   dev.off()
 
@@ -340,7 +340,7 @@ report <- function(file, month1= "01", month2= "01", year1="16", year2="15") {
     strip.text.x = element_text(size=3)
     )
   #save as pdf
-  pdf(paste("february_summary_worststores", ".pdf", sep=""), useDingbats=FALSE)
+  pdf(paste("march_summary_worststores", ".pdf", sep=""), useDingbats=FALSE)
   print(t)
   dev.off()
 
@@ -377,7 +377,7 @@ report <- function(file, month1= "01", month2= "01", year1="16", year2="15") {
     strip.text.x = element_text(size=3)
     )
   #save as pdf
-  pdf(paste("february_summary_profitstores", ".pdf", sep=""), useDingbats=FALSE)
+  pdf(paste("march_summary_profitstores", ".pdf", sep=""), useDingbats=FALSE)
   print(y)
   dev.off()
 }
