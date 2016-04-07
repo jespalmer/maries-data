@@ -43,6 +43,21 @@ report <- function(file, month1= "01", month2= "01", year1="16", year2="15") {
     (sum(month_lastyear$product_price)) / sum(ytd_lastyear$product_price) * 100,
     "%",  "\n")
 
+  #grab latest names from the database
+  library(RJSONIO)
+  id_list <- fromJSON("prod_ids.json")
+  goodNames <- sapply(id_list, function(x) x[[2]])
+  goodIds <- sapply(id_list, function(x) x[[1]])
+  data <- data.frame(product= goodNames, product_id= goodIds)
+
+  month_thisyear <- merge(data,month_thisyear,by="product_id")
+  month_thisyear <- subset(month_thisyear, select = -c(product_name))
+  names(month_thisyear)[2] <- "product_name"
+
+  month_lastyear <- merge(data,month_lastyear,by="product_id")
+  month_lastyear <- subset(month_lastyear, select = -c(product_name))
+  names(month_lastyear)[2] <- "product_name"
+
   #get totals sold per product by month for each year
   lastyear_sums <- with(month_lastyear,
     tapply(product_price, product_name, sum))
@@ -85,7 +100,7 @@ report <- function(file, month1= "01", month2= "01", year1="16", year2="15") {
   par(new_par)
 
   #remove outlier for neat plot
-  no_outlier <- long[-c(45, 46), ]
+  no_outlier <- long[!long$product == "Cinnamon Rolls", ]
 
   #get the right number of colors needed
   colors <- sample(colors(), 87)
