@@ -13,14 +13,70 @@ report <- function(file, month1= "01", month2= "01", year1="16", year2="15") {
   this_month_dates <- as.Date(as.character(this_month_dates), "%Y-%m-%d")
   this_month$placed_date <- this_month_dates
 
-  #get the months and years we want
-  month_lastyear <- subset(this_month,
-    format.Date(placed_date, "%m") == month2 &
-    format.Date(placed_date, "%y") == year2)
+  #check to see if it is a quarterly report
+  if (month1 == "03"){
+    date <- 1:3
+    for (d in date < 10) {
+    gooddates <- lapply(date, function(n) sprintf("%02d", n))
+    }
+    #get the months and years we want
+    month_lastyear <- subset(this_month,
+      format.Date(placed_date, "%m") %in% gooddates &
+      format.Date(placed_date, "%y") == year2)
 
-  month_thisyear <- subset(this_month,
-    format.Date(placed_date, "%m") == month1 &
-    format.Date(placed_date, "%y") == year1)
+    month_thisyear <- subset(this_month,
+      format.Date(placed_date, "%m") %in% gooddates &
+      format.Date(placed_date, "%y") == year1)
+
+  } else if (month1 == "06") {
+    date <- 4:6
+    for (d in date < 10) {
+    gooddates <- lapply(date, function(n) sprintf("%02d", n))
+    }
+    #get the months and years we want
+    month_lastyear <- subset(this_month,
+      format.Date(placed_date, "%m") %in% gooddates &
+      format.Date(placed_date, "%y") == year2)
+    month_thisyear <- subset(this_month,
+      format.Date(placed_date, "%m") %in% gooddates &
+      format.Date(placed_date, "%y") == year1)
+
+  } else if (month1 == "09") {
+    date <- 7:9
+    for (d in date < 10) {
+    gooddates <- lapply(date, function(n) sprintf("%02d", n))
+    }
+    #get the months and years we want
+    month_lastyear <- subset(this_month,
+      format.Date(placed_date, "%m") %in% gooddates &
+      format.Date(placed_date, "%y") == year2)
+    month_thisyear <- subset(this_month,
+      format.Date(placed_date, "%m") %in% gooddates &
+      format.Date(placed_date, "%y") == year1)
+
+  } else if (month1 == "12") {
+    date <- 10:12
+    for (d in date < 10) {
+    gooddates <- lapply(date, function(n) sprintf("%02d", n))
+    }
+    #get the months and years we want
+    month_lastyear <- subset(this_month,
+      format.Date(placed_date, "%m") %in% gooddates &
+      format.Date(placed_date, "%y") == year2)
+    month_thisyear <- subset(this_month,
+      format.Date(placed_date, "%m") %in% gooddates &
+      format.Date(placed_date, "%y") == year1)
+
+  } else {
+    #get the months and years we want
+    month_lastyear <- subset(this_month,
+      format.Date(placed_date, "%m") == month2 &
+      format.Date(placed_date, "%y") == year2)
+
+    month_thisyear <- subset(this_month,
+      format.Date(placed_date, "%m") == month1 &
+      format.Date(placed_date, "%y") == year1)
+  }
 
   #get month totals for each year and percetages of year to date
   cat("\nTotal gross month sales for current year: \n$",
