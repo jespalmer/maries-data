@@ -9,8 +9,8 @@ header <- function(title){
 }
 
 #main report title and date
-header("2016 Monthly Wholesale Summary ran on June 9, 2016")
+header("2016 Monthly Wholesale Summary ran on August 7, 2016")
 
 #Monthly summary
-header("2016 Wholesale Totals | May 2016 compared to April 2016")
-report("fixed_orders.csv", month1= "05", month2= "04", year1="16", year2="16")
+header("2016 Wholesale Totals | July 2016 compared to July 2015")
+report("fixed_orders.csv", month1= "07", month2= "07", year1="16", year2="15")
